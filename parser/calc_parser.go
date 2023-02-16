@@ -33,25 +33,28 @@ var calcParserStaticData struct {
 func calcParserInit() {
 	staticData := &calcParserStaticData
 	staticData.literalNames = []string{
-		"", "'*'", "'/'", "'+'", "'-'",
+		"", "'('", "')'", "'*'", "'/'", "'+'", "'-'",
 	}
 	staticData.symbolicNames = []string{
-		"", "MUL", "DIV", "ADD", "SUB", "NUMBER", "WHITESPACE",
+		"", "LEFTBRACKET", "RIGHTBRACKET", "MUL", "DIV", "ADD", "SUB", "NUMBER",
+		"WHITESPACE",
 	}
 	staticData.ruleNames = []string{
 		"start", "expression",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 6, 22, 2, 0, 7, 0, 2, 1, 7, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 17, 8, 1, 10, 1, 12, 1, 20, 9,
-		1, 1, 1, 0, 1, 2, 2, 0, 2, 0, 2, 1, 0, 1, 2, 1, 0, 3, 4, 21, 0, 4, 1, 0,
-		0, 0, 2, 7, 1, 0, 0, 0, 4, 5, 3, 2, 1, 0, 5, 6, 5, 0, 0, 1, 6, 1, 1, 0,
-		0, 0, 7, 8, 6, 1, -1, 0, 8, 9, 5, 5, 0, 0, 9, 18, 1, 0, 0, 0, 10, 11, 10,
-		3, 0, 0, 11, 12, 7, 0, 0, 0, 12, 17, 3, 2, 1, 4, 13, 14, 10, 2, 0, 0, 14,
-		15, 7, 1, 0, 0, 15, 17, 3, 2, 1, 3, 16, 10, 1, 0, 0, 0, 16, 13, 1, 0, 0,
-		0, 17, 20, 1, 0, 0, 0, 18, 16, 1, 0, 0, 0, 18, 19, 1, 0, 0, 0, 19, 3, 1,
-		0, 0, 0, 20, 18, 1, 0, 0, 0, 2, 16, 18,
+		4, 1, 8, 27, 2, 0, 7, 0, 2, 1, 7, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 3, 1, 14, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5,
+		1, 22, 8, 1, 10, 1, 12, 1, 25, 9, 1, 1, 1, 0, 1, 2, 2, 0, 2, 0, 2, 1, 0,
+		3, 4, 1, 0, 5, 6, 27, 0, 4, 1, 0, 0, 0, 2, 13, 1, 0, 0, 0, 4, 5, 3, 2,
+		1, 0, 5, 6, 5, 0, 0, 1, 6, 1, 1, 0, 0, 0, 7, 8, 6, 1, -1, 0, 8, 9, 5, 1,
+		0, 0, 9, 10, 3, 2, 1, 0, 10, 11, 5, 2, 0, 0, 11, 14, 1, 0, 0, 0, 12, 14,
+		5, 7, 0, 0, 13, 7, 1, 0, 0, 0, 13, 12, 1, 0, 0, 0, 14, 23, 1, 0, 0, 0,
+		15, 16, 10, 3, 0, 0, 16, 17, 7, 0, 0, 0, 17, 22, 3, 2, 1, 4, 18, 19, 10,
+		2, 0, 0, 19, 20, 7, 1, 0, 0, 20, 22, 3, 2, 1, 3, 21, 15, 1, 0, 0, 0, 21,
+		18, 1, 0, 0, 0, 22, 25, 1, 0, 0, 0, 23, 21, 1, 0, 0, 0, 23, 24, 1, 0, 0,
+		0, 24, 3, 1, 0, 0, 0, 25, 23, 1, 0, 0, 0, 3, 13, 21, 23,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -89,13 +92,15 @@ func NewCalcParser(input antlr.TokenStream) *CalcParser {
 
 // CalcParser tokens.
 const (
-	CalcParserEOF        = antlr.TokenEOF
-	CalcParserMUL        = 1
-	CalcParserDIV        = 2
-	CalcParserADD        = 3
-	CalcParserSUB        = 4
-	CalcParserNUMBER     = 5
-	CalcParserWHITESPACE = 6
+	CalcParserEOF          = antlr.TokenEOF
+	CalcParserLEFTBRACKET  = 1
+	CalcParserRIGHTBRACKET = 2
+	CalcParserMUL          = 3
+	CalcParserDIV          = 4
+	CalcParserADD          = 5
+	CalcParserSUB          = 6
+	CalcParserNUMBER       = 7
+	CalcParserWHITESPACE   = 8
 )
 
 // CalcParser rules.
@@ -470,6 +475,70 @@ func (s *AddSubContext) ExitRule(listener antlr.ParseTreeListener) {
 	}
 }
 
+type LeftRightBracketContext struct {
+	*ExpressionContext
+	left  antlr.Token
+	right antlr.Token
+}
+
+func NewLeftRightBracketContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *LeftRightBracketContext {
+	var p = new(LeftRightBracketContext)
+
+	p.ExpressionContext = NewEmptyExpressionContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*ExpressionContext))
+
+	return p
+}
+
+func (s *LeftRightBracketContext) GetLeft() antlr.Token { return s.left }
+
+func (s *LeftRightBracketContext) GetRight() antlr.Token { return s.right }
+
+func (s *LeftRightBracketContext) SetLeft(v antlr.Token) { s.left = v }
+
+func (s *LeftRightBracketContext) SetRight(v antlr.Token) { s.right = v }
+
+func (s *LeftRightBracketContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *LeftRightBracketContext) Expression() IExpressionContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
+}
+
+func (s *LeftRightBracketContext) LEFTBRACKET() antlr.TerminalNode {
+	return s.GetToken(CalcParserLEFTBRACKET, 0)
+}
+
+func (s *LeftRightBracketContext) RIGHTBRACKET() antlr.TerminalNode {
+	return s.GetToken(CalcParserRIGHTBRACKET, 0)
+}
+
+func (s *LeftRightBracketContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CalcListener); ok {
+		listenerT.EnterLeftRightBracket(s)
+	}
+}
+
+func (s *LeftRightBracketContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CalcListener); ok {
+		listenerT.ExitLeftRightBracket(s)
+	}
+}
+
 func (p *CalcParser) Expression() (localctx IExpressionContext) {
 	return p.expression(0)
 }
@@ -506,19 +575,50 @@ func (p *CalcParser) expression(_p int) (localctx IExpressionContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	localctx = NewNumberContext(p, localctx)
-	p.SetParserRuleContext(localctx)
-	_prevctx = localctx
-
-	{
-		p.SetState(8)
-		p.Match(CalcParserNUMBER)
-	}
-
-	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(18)
+	p.SetState(13)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext())
+
+	switch p.GetTokenStream().LA(1) {
+	case CalcParserLEFTBRACKET:
+		localctx = NewLeftRightBracketContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+
+		{
+			p.SetState(8)
+
+			var _m = p.Match(CalcParserLEFTBRACKET)
+
+			localctx.(*LeftRightBracketContext).left = _m
+		}
+		{
+			p.SetState(9)
+			p.expression(0)
+		}
+		{
+			p.SetState(10)
+
+			var _m = p.Match(CalcParserRIGHTBRACKET)
+
+			localctx.(*LeftRightBracketContext).right = _m
+		}
+
+	case CalcParserNUMBER:
+		localctx = NewNumberContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+		{
+			p.SetState(12)
+			p.Match(CalcParserNUMBER)
+		}
+
+	default:
+		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	}
+	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
+	p.SetState(23)
+	p.GetErrorHandler().Sync(p)
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
@@ -526,19 +626,19 @@ func (p *CalcParser) expression(_p int) (localctx IExpressionContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			p.SetState(16)
+			p.SetState(21)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 0, p.GetParserRuleContext()) {
+			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewMulDivContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, CalcParserRULE_expression)
-				p.SetState(10)
+				p.SetState(15)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
 					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
 				}
 				{
-					p.SetState(11)
+					p.SetState(16)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -556,20 +656,20 @@ func (p *CalcParser) expression(_p int) (localctx IExpressionContext) {
 					}
 				}
 				{
-					p.SetState(12)
+					p.SetState(17)
 					p.expression(4)
 				}
 
 			case 2:
 				localctx = NewAddSubContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, CalcParserRULE_expression)
-				p.SetState(13)
+				p.SetState(18)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
 					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
 				}
 				{
-					p.SetState(14)
+					p.SetState(19)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -587,16 +687,16 @@ func (p *CalcParser) expression(_p int) (localctx IExpressionContext) {
 					}
 				}
 				{
-					p.SetState(15)
+					p.SetState(20)
 					p.expression(3)
 				}
 
 			}
 
 		}
-		p.SetState(20)
+		p.SetState(25)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 	}
 
 	return localctx

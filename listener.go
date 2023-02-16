@@ -55,3 +55,13 @@ func (l *calcListener) ExitNumber(c *parser.NumberContext) {
 	}
 	l.push(i)
 }
+
+func (l *calcListener) ExitLeftRightBracket(c *parser.LeftRightBracketContext) {
+	//c.ExpressionContext.getto
+	str := c.GetText()
+	left := c.GetLeft().GetText()
+	right := c.GetRight().GetText()
+	if left != "(" || right != ")" {
+		panic("shoud be brackets: " + str + ", left = " + left + ", right = " + right)
+	}
+}

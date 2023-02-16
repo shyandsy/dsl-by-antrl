@@ -44,3 +44,9 @@ func (s *BaseCalcListener) EnterAddSub(ctx *AddSubContext) {}
 
 // ExitAddSub is called when production AddSub is exited.
 func (s *BaseCalcListener) ExitAddSub(ctx *AddSubContext) {}
+
+// EnterLeftRightBracket is called when production LeftRightBracket is entered.
+func (s *BaseCalcListener) EnterLeftRightBracket(ctx *LeftRightBracketContext) {}
+
+// ExitLeftRightBracket is called when production LeftRightBracket is exited.
+func (s *BaseCalcListener) ExitLeftRightBracket(ctx *LeftRightBracketContext) {}

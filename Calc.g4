@@ -1,6 +1,8 @@
 grammar Calc;
 
 // Tokens
+LEFTBRACKET: '(';
+RIGHTBRACKET: ')';
 MUL: '*';
 DIV: '/';
 ADD: '+';
@@ -12,7 +14,8 @@ WHITESPACE: [ \r\n\t]+ -> skip;
 start : expression EOF;
 
 expression
-   : expression op=('*'|'/') expression # MulDiv
+   : left='(' expression right=')' #LeftRightBracket
+   | expression op=('*'|'/') expression # MulDiv
    | expression op=('+'|'-') expression # AddSub
    | NUMBER                             # Number
    ;

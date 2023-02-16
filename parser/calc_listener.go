@@ -20,6 +20,9 @@ type CalcListener interface {
 	// EnterAddSub is called when entering the AddSub production.
 	EnterAddSub(c *AddSubContext)
 
+	// EnterLeftRightBracket is called when entering the LeftRightBracket production.
+	EnterLeftRightBracket(c *LeftRightBracketContext)
+
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
 
@@ -31,4 +34,7 @@ type CalcListener interface {
 
 	// ExitAddSub is called when exiting the AddSub production.
 	ExitAddSub(c *AddSubContext)
+
+	// ExitLeftRightBracket is called when exiting the LeftRightBracket production.
+	ExitLeftRightBracket(c *LeftRightBracketContext)
 }

@@ -8,9 +8,13 @@ import (
 )
 
 func main() {
-	showTokens("1 + 2 * 3")
+	exp := "(1 + 2) * ( 3 + 4 ) * 6"
+	showTokens(exp)
 
-	doCalculation("1 + 2 * 3")
+	result := DoCalculation(exp)
+
+	fmt.Println()
+	fmt.Println("expression: "+exp+" = ", result)
 }
 
 func showTokens(exp string) {
@@ -29,10 +33,9 @@ func showTokens(exp string) {
 		}
 		fmt.Printf("\t%s (%q)\n", lexer.SymbolicNames[t.GetTokenType()], t.GetText())
 	}
-
 }
 
-func doCalculation(exp string) {
+func DoCalculation(exp string) int {
 	is := antlr.NewInputStream(exp)
 
 	lexer := parser.NewCalcLexer(is)
@@ -45,7 +48,5 @@ func doCalculation(exp string) {
 	var listener calcListener
 	antlr.ParseTreeWalkerDefault.Walk(&listener, p.Start())
 
-	fmt.Println()
-	fmt.Println("expression: "+exp+" = ", listener.pop())
-
+	return listener.pop()
 }

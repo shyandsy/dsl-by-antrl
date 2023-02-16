@@ -11,6 +11,15 @@ type CalcListener interface {
 	// EnterStart is called when entering the start production.
 	EnterStart(c *StartContext)
 
+	// EnterStatements is called when entering the statements production.
+	EnterStatements(c *StatementsContext)
+
+	// EnterAssign is called when entering the assign production.
+	EnterAssign(c *AssignContext)
+
+	// EnterVariable is called when entering the Variable production.
+	EnterVariable(c *VariableContext)
+
 	// EnterNumber is called when entering the Number production.
 	EnterNumber(c *NumberContext)
 
@@ -25,6 +34,15 @@ type CalcListener interface {
 
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
+
+	// ExitStatements is called when exiting the statements production.
+	ExitStatements(c *StatementsContext)
+
+	// ExitAssign is called when exiting the assign production.
+	ExitAssign(c *AssignContext)
+
+	// ExitVariable is called when exiting the Variable production.
+	ExitVariable(c *VariableContext)
 
 	// ExitNumber is called when exiting the Number production.
 	ExitNumber(c *NumberContext)

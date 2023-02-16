@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	exp := "(1 + 2) * ( 3 + 4 ) * 6"
+	exp := "a=2;b=3; (1 + 2) * ( 3 + 4 ) * a * b"
 	showTokens(exp)
 
 	result := DoCalculation(exp)
@@ -45,8 +45,8 @@ func DoCalculation(exp string) int {
 	p := parser.NewCalcParser(stream)
 
 	// parse the expression
-	var listener calcListener
-	antlr.ParseTreeWalkerDefault.Walk(&listener, p.Start())
+	listener := NewCalculationListener()
+	antlr.ParseTreeWalkerDefault.Walk(listener, p.Start())
 
 	return listener.pop()
 }

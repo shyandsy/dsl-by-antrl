@@ -8,9 +8,15 @@ import (
 
 type calcListener struct {
 	*parser.BaseCalcListener
-	stack []int
+	stack     []int
+	variables map[string]int
 }
 
+func NewCalculationListener() *calcListener {
+	return &calcListener{
+		variables: make(map[string]int),
+	}
+}
 func (l *calcListener) push(i int) {
 	l.stack = append(l.stack, i)
 }
@@ -64,4 +70,25 @@ func (l *calcListener) ExitLeftRightBracket(c *parser.LeftRightBracketContext) {
 	if left != "(" || right != ")" {
 		panic("shoud be brackets: " + str + ", left = " + left + ", right = " + right)
 	}
+}
+
+func (l *calcListener) ExitAssign(c *parser.AssignContext) {
+	x := c.GetText()
+	fmt.Println(x)
+	key := c.GetLeft().GetText()
+	value := c.GetRight().GetText()
+	v, err := strconv.Atoi(value)
+	if err != nil {
+		panic("the value of variable must be an integer")
+	}
+	l.variables[key] = v
+}
+
+func (l *calcListener) ExitVariable(c *parser.VariableContext) {
+	name := c.GetText()
+	if v, ok := l.variables[name]; ok {
+		l.push(v)
+		return
+	}
+	panic("undefined variable: " + name)
 }

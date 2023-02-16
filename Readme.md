@@ -1,6 +1,12 @@
 # Antlr generate calculation
 
-1. write Calc.g4
+- [x] simple calculation
+- [x] support bracket to change the priority
+- [x] support variable definition
+
+### simple calculation
+
+1. write a naive Calc.g4, support very simple calculation
 
 ```antlr
 grammar Calc;
@@ -37,4 +43,21 @@ $ antlr -Dlanguage=Go -package mypackage -o parser Calc.g4
 
 ```shell
 $ antlr -Dlanguage=Go -package apiparser -o apiparser ApiParser.g4
+```
+
+### support bracket to change priority
+
+```antlr
+expression
+   : left='(' expression right=')' #LeftRightBracket
+   | expression op=('*'|'/') expression # MulDiv
+   | expression op=('+'|'-') expression # AddSub
+   | NUMBER                             # Number
+   ;
+```
+
+### support variables
+
+```antlr
+
 ```

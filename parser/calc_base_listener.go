@@ -27,6 +27,24 @@ func (s *BaseCalcListener) EnterStart(ctx *StartContext) {}
 // ExitStart is called when production start is exited.
 func (s *BaseCalcListener) ExitStart(ctx *StartContext) {}
 
+// EnterStatements is called when production statements is entered.
+func (s *BaseCalcListener) EnterStatements(ctx *StatementsContext) {}
+
+// ExitStatements is called when production statements is exited.
+func (s *BaseCalcListener) ExitStatements(ctx *StatementsContext) {}
+
+// EnterAssign is called when production assign is entered.
+func (s *BaseCalcListener) EnterAssign(ctx *AssignContext) {}
+
+// ExitAssign is called when production assign is exited.
+func (s *BaseCalcListener) ExitAssign(ctx *AssignContext) {}
+
+// EnterVariable is called when production Variable is entered.
+func (s *BaseCalcListener) EnterVariable(ctx *VariableContext) {}
+
+// ExitVariable is called when production Variable is exited.
+func (s *BaseCalcListener) ExitVariable(ctx *VariableContext) {}
+
 // EnterNumber is called when production Number is entered.
 func (s *BaseCalcListener) EnterNumber(ctx *NumberContext) {}
 
